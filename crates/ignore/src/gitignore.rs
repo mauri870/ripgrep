@@ -224,7 +224,11 @@ impl Gitignore {
             return Match::None;
         }
         let mut path = self.strip(path.as_ref());
-        assert!(!path.has_root(), "path is expected to be under the root");
+
+        // path is expected to be under the root dir
+        if !path.has_root() {
+            return Match::None;
+        }
 
         match self.matched_stripped(path, is_dir) {
             Match::None => (), // walk up
